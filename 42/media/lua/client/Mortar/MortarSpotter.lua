@@ -81,17 +81,7 @@ local function getMapAPI(map)
     return nil
 end
 
--- Convert a local UI click to world tile coords using the map API.
-<<<<<<< HEAD
-<<<<<<< HEAD
--- Uses a Lua closure wrapper for reliable Java interop in pcall.
-=======
--- x,y from onMouseDown/onMouseUp are widget-relative; uiToWorldX/Y expects
--- the same coordinate space — pass them through without adjustment.
->>>>>>> adfaaa6 (minimal working version)
-=======
--- Uses a Lua closure wrapper for reliable Java interop in pcall.
->>>>>>> 9d3c76e (working HE shell tile destruction)
+
 local function uiToWorld(api, x, y)
     if not api then return nil end
     if type(api.uiToWorldX) ~= "function" or type(api.uiToWorldY) ~= "function" then
@@ -128,12 +118,12 @@ function Spotter.togglePlot(map)
     end
     Spotter._plotting = not Spotter._plotting
     if Spotter._plotting then
-        Spotter._observer = nil
-        Spotter._plotTarget = nil
+        Spotter._observer = nil; Spotter._observerUI = nil
+        Spotter._plotTarget = nil; Spotter._plotTargetUI = nil
         notify(player, tr("IGUI_Mortar_Spotter_PickObserver"))
     else
-        Spotter._observer = nil
-        Spotter._plotTarget = nil
+        Spotter._observer = nil; Spotter._observerUI = nil
+        Spotter._plotTarget = nil; Spotter._plotTargetUI = nil
         notify(player, tr("IGUI_Mortar_Spotter_Cleared"))
     end
 end
@@ -155,7 +145,7 @@ function Spotter.handlePlotClick(map, x, y)
 
     if not Spotter._observer then
         -- First click: the observer / mortar position.
-        Spotter._observer = { x = wx, y = wy }
+        Spotter._observer = { x = wx, y = wy }; Spotter._observerUI = { x = x, y = y }
         notify(player, tr("IGUI_Mortar_Spotter_PickTarget"))
         return true
     end
@@ -175,7 +165,7 @@ function Spotter.handlePlotClick(map, x, y)
         math.floor(solution.bearing), math.floor(solution.range), solution.chargeId))
     Log.info("Spotter plotted: %s", Targeting.describe(solution))
 
-    Spotter._plotTarget = { x = wx, y = wy }
+    Spotter._plotTarget = { x = wx, y = wy }; Spotter._plotTargetUI = { x = x, y = y }
     Spotter._plotting = false
     return true
 end
@@ -184,8 +174,8 @@ end
 -- solution, or the user cancels / starts a new plot).
 function Spotter.clearPlot()
     Spotter._plotting = false
-    Spotter._observer = nil
-    Spotter._plotTarget = nil
+    Spotter._observer = nil; Spotter._observerUI = nil
+    Spotter._plotTarget = nil; Spotter._plotTargetUI = nil
 end
 
 --=======================================================================--
@@ -225,112 +215,31 @@ local function install()
         end
     end
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 9d3c76e (working HE shell tile destruction)
     -- Capture clicks while plotting (onMouseUp only). Never return true —
     -- consuming the event prevents the map from releasing mouse capture.
     local origMouseUp = ISWorldMap.onMouseUp
     function ISWorldMap:onMouseUp(x, y)
         if Spotter._plotting then
             pcall(function() MortarMod.Spotter.handlePlotClick(self, x, y) end)
-<<<<<<< HEAD
         end
         if origMouseUp then return origMouseUp(self, x, y) end
     end
-=======
-    -- Capture clicks while plotting. Try onMouseDown first (B42 often consumes
-    -- mouse events before onMouseUp), then fall back to onMouseUp.
-    local hooksTried = {}
-    local function installClickHook(hookName)
-        if hooksTried[hookName] then return end
-        hooksTried[hookName] = true
-        local orig = ISWorldMap[hookName]
-        if type(orig) ~= "function" then return end
-        ISWorldMap[hookName] = function(self, x, y)
-            if Spotter._plotting then
-                local mx, my = x, y
-                if type(self.getMouseX) == "function" and type(self.getMouseY) == "function" then
-                    mx, my = self:getMouseX(), self:getMouseY()
-                end
-                local consumed = false
-                pcall(function() consumed = MortarMod.Spotter.handlePlotClick(self, mx, my) end)
-                if consumed then return true end
-            end
-            if orig then return orig(self, x, y) end
-=======
->>>>>>> 9d3c76e (working HE shell tile destruction)
-        end
-        if origMouseUp then return origMouseUp(self, x, y) end
-    end
-<<<<<<< HEAD
-    installClickHook("onMouseDown")
-    installClickHook("onMouseUp")
->>>>>>> adfaaa6 (minimal working version)
-=======
->>>>>>> 9d3c76e (working HE shell tile destruction)
 
-    -- Plot line rendering (observer -> target). Runs after a complete
-    -- two-click plot to show the red line on the map.
+    -- Plot line rendering. Draws at the UI pixel positions captured when the
+    -- user clicked observer and target (no world-to-UI conversion needed).
     local plotTex
     local origPrerender = ISWorldMap.prerender
     function ISWorldMap:prerender()
         if origPrerender then origPrerender(self) end
-        if Spotter._observer and Spotter._plotTarget then
-            local api = getMapAPI(self)
-            if not api then return end
-            local ox, oy, tx, ty
-            if type(api.worldToUIX) == "function" and type(api.worldToUIY) == "function" then
-                ox = api:worldToUIX(Spotter._observer.x, Spotter._observer.y)
-                oy = api:worldToUIY(Spotter._observer.x, Spotter._observer.y)
-                tx = api:worldToUIX(Spotter._plotTarget.x, Spotter._plotTarget.y)
-                ty = api:worldToUIY(Spotter._plotTarget.x, Spotter._plotTarget.y)
-<<<<<<< HEAD
-<<<<<<< HEAD
-            else
-                -- Fallback: manually invert uiToWorldX/Y by sampling corners.
-=======
-            elseif type(api.uiToWorldX) == "function" and type(api.uiToWorldY) == "function" then
-                -- Fallback: invert uiToWorldX/Y by sampling edges.
->>>>>>> 9d3c76e (working HE shell tile destruction)
-                local w = self.width or 600
-                local h = self.height or 600
-                local wx0 = api:uiToWorldX(0, 0)
-                local wy0 = api:uiToWorldY(0, 0)
-<<<<<<< HEAD
-                local wx1 = api:uiToWorldX(w, h)
-                local wy1 = api:uiToWorldY(w, h)
-                local rwx = wx1 - wx0
-                local rwy = wy1 - wy0
-                if rwx ~= 0 and rwy ~= 0 then
-                    ox = (Spotter._observer.x - wx0) / rwx * w
-                    oy = (Spotter._observer.y - wy0) / rwy * h
-                    tx = (Spotter._plotTarget.x - wx0) / rwx * w
-                    ty = (Spotter._plotTarget.y - wy0) / rwy * h
-                end
-=======
->>>>>>> adfaaa6 (minimal working version)
-=======
-                local wx1 = api:uiToWorldX(w, 0)
-                local wy1 = api:uiToWorldY(0, h)
-                local sx = (wx1 - wx0) / w
-                local sy = (wy1 - wy0) / h
-                if sx ~= 0 and sy ~= 0 then
-                    ox = (Spotter._observer.x - wx0) / sx
-                    oy = (Spotter._observer.y - wy0) / sy
-                    tx = (Spotter._plotTarget.x - wx0) / sx
-                    ty = (Spotter._plotTarget.y - wy0) / sy
-                end
->>>>>>> 9d3c76e (working HE shell tile destruction)
+        if Spotter._observerUI and Spotter._plotTargetUI then
+            if not plotTex then
+                plotTex = getTexture("media/ui/WhiteRect.png")
             end
-            if ox and oy and tx and ty then
-                if not plotTex then
-                    plotTex = getTexture("media/ui/WhiteRect.png")
-                end
-                if plotTex then
-                    self:drawLine(plotTex, ox, oy, tx, ty, 1.0, 0.3, 0.25, 0.8)
-                end
+            if plotTex then
+                self:drawLine(plotTex,
+                    Spotter._observerUI.x, Spotter._observerUI.y,
+                    Spotter._plotTargetUI.x, Spotter._plotTargetUI.y,
+                    1.0, 0.3, 0.25, 0.8)
             end
         end
     end
