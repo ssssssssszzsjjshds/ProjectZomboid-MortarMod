@@ -1,0 +1,31 @@
+module MortarSystem
+{
+    imports
+    {
+        Base
+    }
+
+    craftRecipe RepairM224Mortar
+    {
+        Time            = 600,
+        category        = Maintenance,
+        Tags            = InHandCraft;CanBeDoneFromFloor,
+        SkillRequired   = MetalWelding:3,
+        xpAward         = MetalWelding:15,
+        needToBeLearn   = false,
+
+        inputs
+        {
+            item 1 [MortarSystem.M224Mortar] flags[Prop1],
+            item 1 [Base.BlowTorch] mode:keep flags[MayDegradeLight],
+            item 2 [Base.WeldingRods] mode:destroy,
+        }
+
+        outputs
+        {
+            item 1 MortarSystem.M224Mortar,
+        }
+
+        OnCreate = MortarRecipes_OnRepair,
+    }
+}

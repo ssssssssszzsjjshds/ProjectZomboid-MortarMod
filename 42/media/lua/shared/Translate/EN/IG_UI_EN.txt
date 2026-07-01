@@ -1,0 +1,61 @@
+IG_UI_EN = {
+
+    /* ---- Inventory display category ------------------------------------ */
+    IGUI_ItemCat_MortarSystem = "Mortar System",
+
+    /* ---- Deployed object / general ------------------------------------- */
+    IGUI_Mortar_DeployedName = "M224 Mortar",
+    IGUI_Mortar_Title = "M224 60mm Mortar",
+    IGUI_Mortar_Condition = "Condition: %d%%",
+    IGUI_Mortar_ConditionWorn = "Tube wear is degrading accuracy.",
+
+    /* ---- Shell type labels --------------------------------------------- */
+    IGUI_Mortar_Shell_HE = "HE",
+    IGUI_Mortar_Shell_Smoke = "Smoke",
+    IGUI_Mortar_Shell_Illum = "Illum",
+    IGUI_Mortar_Shell_None = "No shells",
+
+    /* ---- Firing UI columns / controls ---------------------------------- */
+    IGUI_Mortar_Bearing = "Bearing",
+    IGUI_Mortar_BearingUnit = "deg",
+    IGUI_Mortar_Charge = "Charge",
+    IGUI_Mortar_Range = "Range",
+    IGUI_Mortar_RangeTiles = "%d tiles",
+    IGUI_Mortar_RangeEstimate = "~%d-%d tiles",
+    IGUI_Mortar_RangeUnknown = "range unknown",
+    IGUI_Mortar_Shell = "Shell",
+    IGUI_Mortar_Fire = "Drop Round",
+    IGUI_Mortar_Firing = "Firing...",
+    IGUI_Mortar_Close = "Stand Down",
+    IGUI_Mortar_Tool = "Plotting",
+    IGUI_Mortar_ScatterPreview = "Est. spread: %d tiles",
+
+    /* ---- Tool tier warnings -------------------------------------------- */
+    IGUI_Mortar_Warn_Compass = "Compass only - no range tables, wide spread.",
+    IGUI_Mortar_Warn_Ruler = "Map ruler only - crude bearing, very wide spread.",
+    IGUI_Mortar_Warn_NoCircle = "No aiming circle - slightly reduced accuracy.",
+    IGUI_Mortar_Warn_NoTools = "You need plotting tools to operate the mortar.",
+
+    /* ---- Errors / prompts ---------------------------------------------- */
+    IGUI_Mortar_Err_NoSolution = "No firing solution.",
+    IGUI_Mortar_Err_TooClose = "Target is inside minimum safe range.",
+    IGUI_Mortar_Err_TooFar = "Target is beyond maximum range.",
+    IGUI_Mortar_Err_BadCharge = "Invalid charge.",
+    IGUI_Mortar_Err_NoShell = "Out of that shell type.",
+    IGUI_Mortar_Err_Unserviceable = "The mortar is damaged beyond use.",
+    IGUI_Mortar_Misfire = "MISFIRE! The round failed to launch.",
+
+    /* ---- Spotter / map plotting ---------------------------------------- */
+    IGUI_Mortar_Spotter_Plot = "Plot Fire Mission",
+    IGUI_Mortar_Spotter_PickObserver = "Click the observer (mortar) position.",
+    IGUI_Mortar_Spotter_PickTarget = "Click the target position.",
+    IGUI_Mortar_Spotter_Solution = "Plotted: bearing %d deg, %d tiles (Charge %d).",
+    IGUI_Mortar_Spotter_Use = "Use Plotted Solution",
+    IGUI_Mortar_Spotter_None = "No plotted mission.",
+    IGUI_Mortar_Spotter_NeedTool = "You need a plotting tool to plot a mission.",
+    IGUI_Mortar_Spotter_Cleared = "Fire mission cleared.",
+
+    /* ---- Status line / feedback ---------------------------------------- */
+    IGUI_Mortar_Fired = "Round away.",
+    IGUI_Mortar_Impact = "Impact at %d, %d.",
+}

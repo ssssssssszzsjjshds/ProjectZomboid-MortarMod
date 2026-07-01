@@ -1,0 +1,10 @@
+name=Mortar System
+id=MortarSystem
+description=Adds a realistic, immersive crew-served 60mm mortar system to Project Zomboid. Loot a broken-down M224 mortar and plotting tools from military zones, deploy it as field artillery, and fire HE, smoke, and illumination rounds with procedural scatter affected by skill, moodles, and weather. Built for Build 42.19 with a clean, multiplayer-ready, mod-friendly architecture.
+poster=poster.png
+icon=preview.png
+modversion=1.0.0
+url=
+versionMin=42.0.0
+versionMax=
+

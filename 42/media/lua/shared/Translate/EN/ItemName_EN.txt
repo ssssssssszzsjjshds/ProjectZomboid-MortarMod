@@ -1,0 +1,11 @@
+ItemName_EN = {
+    ItemName_MortarSystem.M224Mortar = "M224 Mortar (Broken Down)",
+    ItemName_MortarSystem.Shell_HE_60 = "HE Mortar Round, 60mm",
+    ItemName_MortarSystem.Shell_Smoke_60 = "Smoke Mortar Round, 60mm",
+    ItemName_MortarSystem.Shell_Illum_60 = "Illum Mortar Round, 60mm",
+    ItemName_MortarSystem.PlottingBoard = "Artillery Plotting Board",
+    ItemName_MortarSystem.AimingCircle = "Aiming Circle",
+    ItemName_MortarSystem.FiringTables = "Firing Tables (60mm)",
+    ItemName_MortarSystem.OrienteeringCompass = "Orienteering Compass",
+    ItemName_MortarSystem.MapRuler = "Map Ruler",
+}

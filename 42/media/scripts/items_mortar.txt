@@ -1,0 +1,96 @@
+module MortarSystem
+{
+    imports
+    {
+        Base
+    }
+
+    /***********************************************************************
+     * MORTAR SYSTEM - ITEM DEFINITIONS  (Build 42.19)
+     *
+     * B42 notes:
+     *   - Uses `ItemType = base:normal` (B42 replaced B41's `Type = Normal`).
+     *   - Display names live in translations (media/.../Translate/EN/ItemName_EN.txt)
+     *     because `DisplayName` is deprecated since 42.13.
+     *   - Icons reference PLACEHOLDER textures (media/textures/Item_*.png) -- swap
+     *     for final art (see docs/ASSET_CHECKLIST.md).
+     *   - Loot placement is done in Lua (server/Mortar/MortarDistributions.lua).
+     *   - Weights mirror real-world equivalents abstracted to PZ units (design 2).
+     ***********************************************************************/
+
+    /* --- The crew-served weapon: carried broken down as one heavy item ----- */
+    item M224Mortar
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 21.0,
+        Icon            = MortarTube,
+    }
+
+    /* --- 60mm shells ------------------------------------------------------- */
+    item Shell_HE_60
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 2.0,
+        Icon            = ShellHE,
+    }
+
+    item Shell_Smoke_60
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 2.0,
+        Icon            = ShellSmoke,
+    }
+
+    item Shell_Illum_60
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 2.0,
+        Icon            = ShellIllum,
+    }
+
+    /* --- Military plotting kit (best accuracy) ----------------------------- */
+    item PlottingBoard
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 1.0,
+        Icon            = PlottingBoard,
+    }
+
+    item AimingCircle
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 2.0,
+        Icon            = AimingCircle,
+    }
+
+    item FiringTables
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 0.5,
+        Icon            = FiringTables,
+    }
+
+    /* --- Civilian navigation aids (army surplus; higher scatter) ----------- */
+    item OrienteeringCompass
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 0.1,
+        Icon            = Compass,
+    }
+
+    item MapRuler
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 0.1,
+        Icon            = MapRuler,
+    }
+}

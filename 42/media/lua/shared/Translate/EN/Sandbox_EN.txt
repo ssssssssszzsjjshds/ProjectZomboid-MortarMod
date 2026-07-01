@@ -1,0 +1,45 @@
+Sandbox_EN = {
+    Sandbox_MortarSystem = "Mortar System",
+
+    Sandbox_MortarSystem_DebugMode = "Debug mode",
+    Sandbox_MortarSystem_DebugMode_tooltip = "Draw targeting/impact/scatter overlays and emit verbose logs. Leave off for normal play.",
+
+    Sandbox_MortarSystem_SetupSeconds = "Setup time (seconds)",
+    Sandbox_MortarSystem_SetupSeconds_tooltip = "Base time to deploy the mortar before Nimble/Strength reductions.",
+
+    Sandbox_MortarSystem_BreakdownSeconds = "Breakdown time (seconds)",
+    Sandbox_MortarSystem_BreakdownSeconds_tooltip = "Base time to pack the mortar back into the carry item.",
+
+    Sandbox_MortarSystem_MinRangeTiles = "Minimum range (tiles)",
+    Sandbox_MortarSystem_MinRangeTiles_tooltip = "Targets closer than this to the tube are rejected (minimum safe distance).",
+
+    Sandbox_MortarSystem_NoiseRadius = "Explosion noise radius (tiles)",
+    Sandbox_MortarSystem_NoiseRadius_tooltip = "How far the impact's world-sound event travels to attract zombies.",
+
+    Sandbox_MortarSystem_NoiseVolume = "Explosion noise volume",
+    Sandbox_MortarSystem_NoiseVolume_tooltip = "Loudness of the impact's world-sound event.",
+
+    Sandbox_MortarSystem_ChunkRadius = "Force-load radius (chunks)",
+    Sandbox_MortarSystem_ChunkRadius_tooltip = "Chunks around the impact pinned in memory so off-screen rounds detonate. 0 = impact chunk only.",
+
+    Sandbox_MortarSystem_ConditionWearPerFire = "Condition wear per round",
+    Sandbox_MortarSystem_ConditionWearPerFire_tooltip = "Tube condition lost each time a round is fired.",
+
+    Sandbox_MortarSystem_MisfireBelow = "Misfire threshold (condition %)",
+    Sandbox_MortarSystem_MisfireBelow_tooltip = "Below this condition the mortar may misfire. 0 disables misfires.",
+
+    Sandbox_MortarSystem_FireXP = "Aiming XP per fire",
+    Sandbox_MortarSystem_FireXP_tooltip = "Aiming XP awarded for a successful fire.",
+
+    Sandbox_MortarSystem_AccuracyBonusXP = "Accuracy bonus XP",
+    Sandbox_MortarSystem_AccuracyBonusXP_tooltip = "Extra Aiming XP when the round lands within a few tiles of the target.",
+
+    Sandbox_MortarSystem_ScatterGlobalScalar = "Global scatter multiplier",
+    Sandbox_MortarSystem_ScatterGlobalScalar_tooltip = "Difficulty knob multiplying ALL scatter. 1.0 = default.",
+
+    Sandbox_MortarSystem_SmokeMinutes = "Smoke duration (in-game minutes)",
+    Sandbox_MortarSystem_SmokeMinutes_tooltip = "How long a smoke cloud lingers.",
+
+    Sandbox_MortarSystem_IllumMinutes = "Flare duration (in-game minutes)",
+    Sandbox_MortarSystem_IllumMinutes_tooltip = "How long an illumination flare burns.",
+}

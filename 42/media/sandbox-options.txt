@@ -1,0 +1,94 @@
+VERSION = 1,
+
+/***********************************************************************
+ * MORTAR SYSTEM - SANDBOX OPTIONS
+ *
+ * Server-tunable balance values surfaced in the New Game / server config UI.
+ * Each maps onto a field in MortarConfig via Config.refreshFromSandbox().
+ * The mod works WITHOUT these (coded defaults apply) -- they are pure overrides.
+ * Translations: media/lua/shared/Translate/EN/Sandbox_EN.txt
+ ***********************************************************************/
+
+option MortarSystem.DebugMode
+{
+    type = boolean, default = false,
+    page = MortarSystem, translation = MortarSystem_DebugMode,
+}
+
+option MortarSystem.SetupSeconds
+{
+    type = double, min = 1.0, max = 60.0, default = 8.0,
+    page = MortarSystem, translation = MortarSystem_SetupSeconds,
+}
+
+option MortarSystem.BreakdownSeconds
+{
+    type = double, min = 1.0, max = 60.0, default = 6.0,
+    page = MortarSystem, translation = MortarSystem_BreakdownSeconds,
+}
+
+option MortarSystem.MinRangeTiles
+{
+    type = integer, min = 1, max = 60, default = 10,
+    page = MortarSystem, translation = MortarSystem_MinRangeTiles,
+}
+
+option MortarSystem.NoiseRadius
+{
+    type = integer, min = 10, max = 600, default = 250,
+    page = MortarSystem, translation = MortarSystem_NoiseRadius,
+}
+
+option MortarSystem.NoiseVolume
+{
+    type = integer, min = 10, max = 600, default = 250,
+    page = MortarSystem, translation = MortarSystem_NoiseVolume,
+}
+
+option MortarSystem.ChunkRadius
+{
+    type = integer, min = 0, max = 4, default = 1,
+    page = MortarSystem, translation = MortarSystem_ChunkRadius,
+}
+
+option MortarSystem.ConditionWearPerFire
+{
+    type = double, min = 0.0, max = 25.0, default = 1.0,
+    page = MortarSystem, translation = MortarSystem_ConditionWearPerFire,
+}
+
+option MortarSystem.MisfireBelow
+{
+    type = integer, min = 0, max = 100, default = 25,
+    page = MortarSystem, translation = MortarSystem_MisfireBelow,
+}
+
+option MortarSystem.FireXP
+{
+    type = integer, min = 0, max = 200, default = 20,
+    page = MortarSystem, translation = MortarSystem_FireXP,
+}
+
+option MortarSystem.AccuracyBonusXP
+{
+    type = integer, min = 0, max = 200, default = 15,
+    page = MortarSystem, translation = MortarSystem_AccuracyBonusXP,
+}
+
+option MortarSystem.ScatterGlobalScalar
+{
+    type = double, min = 0.1, max = 5.0, default = 1.0,
+    page = MortarSystem, translation = MortarSystem_ScatterGlobalScalar,
+}
+
+option MortarSystem.SmokeMinutes
+{
+    type = integer, min = 1, max = 240, default = 60,
+    page = MortarSystem, translation = MortarSystem_SmokeMinutes,
+}
+
+option MortarSystem.IllumMinutes
+{
+    type = integer, min = 1, max = 120, default = 12,
+    page = MortarSystem, translation = MortarSystem_IllumMinutes,
+}
