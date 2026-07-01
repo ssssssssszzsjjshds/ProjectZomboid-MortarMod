@@ -82,7 +82,12 @@ local function getMapAPI(map)
 end
 
 -- Convert a local UI click to world tile coords using the map API.
+<<<<<<< HEAD
 -- Uses a Lua closure wrapper for reliable Java interop in pcall.
+=======
+-- x,y from onMouseDown/onMouseUp are widget-relative; uiToWorldX/Y expects
+-- the same coordinate space — pass them through without adjustment.
+>>>>>>> adfaaa6 (minimal working version)
 local function uiToWorld(api, x, y)
     if not api then return nil end
     if type(api.uiToWorldX) ~= "function" or type(api.uiToWorldY) ~= "function" then
@@ -217,6 +222,7 @@ local function install()
         end
     end
 
+<<<<<<< HEAD
     -- Capture clicks while plotting (onMouseUp only). Never return true —
     -- consuming the event prevents the map from releasing mouse capture.
     local origMouseUp = ISWorldMap.onMouseUp
@@ -226,6 +232,31 @@ local function install()
         end
         if origMouseUp then return origMouseUp(self, x, y) end
     end
+=======
+    -- Capture clicks while plotting. Try onMouseDown first (B42 often consumes
+    -- mouse events before onMouseUp), then fall back to onMouseUp.
+    local hooksTried = {}
+    local function installClickHook(hookName)
+        if hooksTried[hookName] then return end
+        hooksTried[hookName] = true
+        local orig = ISWorldMap[hookName]
+        if type(orig) ~= "function" then return end
+        ISWorldMap[hookName] = function(self, x, y)
+            if Spotter._plotting then
+                local mx, my = x, y
+                if type(self.getMouseX) == "function" and type(self.getMouseY) == "function" then
+                    mx, my = self:getMouseX(), self:getMouseY()
+                end
+                local consumed = false
+                pcall(function() consumed = MortarMod.Spotter.handlePlotClick(self, mx, my) end)
+                if consumed then return true end
+            end
+            if orig then return orig(self, x, y) end
+        end
+    end
+    installClickHook("onMouseDown")
+    installClickHook("onMouseUp")
+>>>>>>> adfaaa6 (minimal working version)
 
     -- Plot line rendering (observer -> target).
     local origPrerender = ISWorldMap.prerender
@@ -240,6 +271,7 @@ local function install()
                 oy = api:worldToUIY(Spotter._observer.x, Spotter._observer.y)
                 tx = api:worldToUIX(Spotter._plotTarget.x, Spotter._plotTarget.y)
                 ty = api:worldToUIY(Spotter._plotTarget.x, Spotter._plotTarget.y)
+<<<<<<< HEAD
             else
                 -- Fallback: manually invert uiToWorldX/Y by sampling corners.
                 local w = self.width or 600
@@ -256,6 +288,8 @@ local function install()
                     tx = (Spotter._plotTarget.x - wx0) / rwx * w
                     ty = (Spotter._plotTarget.y - wy0) / rwy * h
                 end
+=======
+>>>>>>> adfaaa6 (minimal working version)
             end
             if ox and oy and tx and ty then
                 self:drawLine(ox, oy, tx, ty, 1.0, 0.3, 0.25, 0.8)
