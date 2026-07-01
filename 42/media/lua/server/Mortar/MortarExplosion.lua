@@ -111,28 +111,73 @@ local function damageCharactersOnSquare(square, mult, blastRadius, player)
 end
 
 --=======================================================================--
--- STRUCTURE DAMAGE (windows / doors / light thumpables)
+-- STRUCTURE DAMAGE — concentric zones with per-object-type radius limits
 --=======================================================================--
 
-local function damageStructuresOnSquare(square, mult)
+local function damageStructuresOnSquare(square, dist)
     if not square or not square.getObjects then return end
     local objs
-    local ok = pcall(function() objs = square:getObjects() end)
-    if not ok or not objs then return end
+    pcall(function() objs = square:getObjects() end)
+    if not objs then return end
     for i = objs:size() - 1, 0, -1 do
         local o = objs:get(i)
-        if o then
-            local chance = 0.5 + 0.5 * mult
-            if ZombRand(1000) < chance * 1000 then
-                if instanceof and instanceof(o, "IsoWindow") and o.smashWindow then
-                    o:smashWindow()
-                elseif instanceof and instanceof(o, "IsoDoor") then
-                    if o.setIsDismantled then o:setIsDismantled(true) end
-                    if o.removeFromWorld then o:removeFromWorld() end
-                    if o.ToggleDoor then o:ToggleDoor(nil) end
-                elseif instanceof and instanceof(o, "IsoThumpable") then
-                    if o.destroy then o:destroy() end
-                    if o.takeDamage then o:takeDamage(500) end
+        if not o then break end
+
+        -- Per-object-type max effective radius.
+        local maxRadius = 2
+        local isWall = false
+        if instanceof then
+            if instanceof(o, "IsoWindow") then
+                maxRadius = 10
+            elseif instanceof(o, "IsoDoor") then
+                maxRadius = 6
+            elseif instanceof(o, "IsoThumpable") then
+                if o.isFence then
+                    maxRadius = 5
+                elseif o.isWall and o.isWooden then
+                    maxRadius = 3
+                elseif o.isWall then
+                    maxRadius = 2; isWall = true
+                end
+            end
+            if o.isTree then
+                maxRadius = 5
+            end
+        end
+
+        -- Check radius and 75% per-object randomization.
+        if dist <= maxRadius and ZombRand(100) < 75 then
+            if dist <= 2 then
+                -- Complete destruction zone.
+                if o.smashWindow then
+                    pcall(function() o:smashWindow() end)
+                end
+                pcall(function() square:transmitRemoveItemFromSquare(o) end)
+                if o.removeFromWorld then
+                    pcall(function() o:removeFromWorld() end)
+                end
+                if o.setIsDismantled then
+                    pcall(function() o:setIsDismantled(true) end)
+                end
+
+            elseif dist <= 5 then
+                -- Heavy damage zone.
+                if o.smashWindow then
+                    pcall(function() o:smashWindow() end)
+                elseif o.takeDamage then
+                    for j = 1, 6 do
+                        pcall(function() o:takeDamage(80) end)
+                    end
+                end
+
+            else
+                -- Light damage zone (6-10) — walls survive.
+                if not isWall then
+                    if o.smashWindow then
+                        pcall(function() o:smashWindow() end)
+                    elseif o.takeDamage then
+                        pcall(function() o:takeDamage(30) end)
+                    end
                 end
             end
         end
@@ -149,21 +194,37 @@ local BURNT_SPRITES = {
 }
 local BURNT_SPRITE_COUNT = #BURNT_SPRITES
 
--- Scorch a single square. Chance decreases with distance from center.
+-- Scorch a single square. Places a burnt sprite as a tile object since B42
+-- may not expose setFloorSprite or getLuaFloorObject.
 local function maybeCharGround(sq, dist, blastRadius)
     if not sq then return end
     local t = dist / math.max(blastRadius, 1)
     local chance = 0.9 * math.max(0, 1 - t)
     if ZombRand(100) >= chance * 100 then return end
-    -- Try multiple B42 ground-charring methods.
+    -- Try the direct floor API first.
     if sq.getLuaFloorObject then
         local floor = sq:getLuaFloorObject()
         if floor and floor.setSpriteName then
             floor:setSpriteName(BURNT_SPRITES[ZombRand(BURNT_SPRITE_COUNT) + 1])
+            return
         end
     end
     if sq.setFloorSprite then
         sq:setFloorSprite(BURNT_SPRITES[ZombRand(BURNT_SPRITE_COUNT) + 1])
+        return
+    end
+    -- Fallback: place a decorative IsoObject with burnt sprite.
+    local cell = Utils.getCell()
+    if not cell then return end
+    local burntObj
+    if ZombRandFloat then
+        burntObj = IsoObject.new(sq, BURNT_SPRITES[ZombRand(BURNT_SPRITE_COUNT) + 1], "", false)
+    else
+        burntObj = IsoObject.new(Utils.getCell(), sq, BURNT_SPRITES[ZombRand(BURNT_SPRITE_COUNT) + 1])
+    end
+    if burntObj then
+        pcall(function() sq:AddSpecialObject(burntObj) end)
+        pcall(function() burntObj:transmitCompleteItemToClients() end)
     end
 end
 
@@ -207,10 +268,22 @@ local function manualBlast(ctx, centre, blastRadius)
                         damageCharactersOnSquare(sq, mult, blastRadius, ctx.player)
                     end
                     if shell.damagesStructures then
-                        damageStructuresOnSquare(sq, mult)
+                        damageStructuresOnSquare(sq, dist)
                     end
                     maybeCharGround(sq, dist, blastRadius)
                     maybeSmoke(sq, dist, blastRadius)
+                end
+                -- Also damage structures and char ground on Z+1 and Z+2
+                -- (top 2 floors above impact).
+                if shell.damagesStructures then
+                    for dz = 1, 2 do
+                        local upSq = Utils.getSquare(x + dx, y + dy, z + dz)
+                        if upSq then
+                            damageStructuresOnSquare(upSq, dist)
+                            maybeCharGround(upSq, dist, blastRadius)
+                            maybeSmoke(upSq, dist, blastRadius)
+                        end
+                    end
                 end
             end
         end

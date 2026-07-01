@@ -83,11 +83,15 @@ end
 
 -- Convert a local UI click to world tile coords using the map API.
 <<<<<<< HEAD
+<<<<<<< HEAD
 -- Uses a Lua closure wrapper for reliable Java interop in pcall.
 =======
 -- x,y from onMouseDown/onMouseUp are widget-relative; uiToWorldX/Y expects
 -- the same coordinate space — pass them through without adjustment.
 >>>>>>> adfaaa6 (minimal working version)
+=======
+-- Uses a Lua closure wrapper for reliable Java interop in pcall.
+>>>>>>> 9d3c76e (working HE shell tile destruction)
 local function uiToWorld(api, x, y)
     if not api then return nil end
     if type(api.uiToWorldX) ~= "function" or type(api.uiToWorldY) ~= "function" then
@@ -173,12 +177,11 @@ function Spotter.handlePlotClick(map, x, y)
 
     Spotter._plotTarget = { x = wx, y = wy }
     Spotter._plotting = false
-    Spotter._observer = nil
     return true
 end
 
--- Clear the plot state (called when the firing UI consumes the solution or
--- the user cancels).
+-- Clear the plot line and state (called when the firing UI consumes the
+-- solution, or the user cancels / starts a new plot).
 function Spotter.clearPlot()
     Spotter._plotting = false
     Spotter._observer = nil
@@ -223,12 +226,16 @@ local function install()
     end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 9d3c76e (working HE shell tile destruction)
     -- Capture clicks while plotting (onMouseUp only). Never return true —
     -- consuming the event prevents the map from releasing mouse capture.
     local origMouseUp = ISWorldMap.onMouseUp
     function ISWorldMap:onMouseUp(x, y)
         if Spotter._plotting then
             pcall(function() MortarMod.Spotter.handlePlotClick(self, x, y) end)
+<<<<<<< HEAD
         end
         if origMouseUp then return origMouseUp(self, x, y) end
     end
@@ -252,13 +259,21 @@ local function install()
                 if consumed then return true end
             end
             if orig then return orig(self, x, y) end
+=======
+>>>>>>> 9d3c76e (working HE shell tile destruction)
         end
+        if origMouseUp then return origMouseUp(self, x, y) end
     end
+<<<<<<< HEAD
     installClickHook("onMouseDown")
     installClickHook("onMouseUp")
 >>>>>>> adfaaa6 (minimal working version)
+=======
+>>>>>>> 9d3c76e (working HE shell tile destruction)
 
-    -- Plot line rendering (observer -> target).
+    -- Plot line rendering (observer -> target). Runs after a complete
+    -- two-click plot to show the red line on the map.
+    local plotTex
     local origPrerender = ISWorldMap.prerender
     function ISWorldMap:prerender()
         if origPrerender then origPrerender(self) end
@@ -272,12 +287,18 @@ local function install()
                 tx = api:worldToUIX(Spotter._plotTarget.x, Spotter._plotTarget.y)
                 ty = api:worldToUIY(Spotter._plotTarget.x, Spotter._plotTarget.y)
 <<<<<<< HEAD
+<<<<<<< HEAD
             else
                 -- Fallback: manually invert uiToWorldX/Y by sampling corners.
+=======
+            elseif type(api.uiToWorldX) == "function" and type(api.uiToWorldY) == "function" then
+                -- Fallback: invert uiToWorldX/Y by sampling edges.
+>>>>>>> 9d3c76e (working HE shell tile destruction)
                 local w = self.width or 600
                 local h = self.height or 600
                 local wx0 = api:uiToWorldX(0, 0)
                 local wy0 = api:uiToWorldY(0, 0)
+<<<<<<< HEAD
                 local wx1 = api:uiToWorldX(w, h)
                 local wy1 = api:uiToWorldY(w, h)
                 local rwx = wx1 - wx0
@@ -290,9 +311,26 @@ local function install()
                 end
 =======
 >>>>>>> adfaaa6 (minimal working version)
+=======
+                local wx1 = api:uiToWorldX(w, 0)
+                local wy1 = api:uiToWorldY(0, h)
+                local sx = (wx1 - wx0) / w
+                local sy = (wy1 - wy0) / h
+                if sx ~= 0 and sy ~= 0 then
+                    ox = (Spotter._observer.x - wx0) / sx
+                    oy = (Spotter._observer.y - wy0) / sy
+                    tx = (Spotter._plotTarget.x - wx0) / sx
+                    ty = (Spotter._plotTarget.y - wy0) / sy
+                end
+>>>>>>> 9d3c76e (working HE shell tile destruction)
             end
             if ox and oy and tx and ty then
-                self:drawLine(ox, oy, tx, ty, 1.0, 0.3, 0.25, 0.8)
+                if not plotTex then
+                    plotTex = getTexture("media/ui/WhiteRect.png")
+                end
+                if plotTex then
+                    self:drawLine(plotTex, ox, oy, tx, ty, 1.0, 0.3, 0.25, 0.8)
+                end
             end
         end
     end
