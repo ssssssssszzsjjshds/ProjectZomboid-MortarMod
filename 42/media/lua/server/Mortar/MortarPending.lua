@@ -63,15 +63,22 @@ Pending._nextId = (type(Pending._nextId) == "number") and Pending._nextId or 1
 -- Helper: get (or create) persistent store
 function Pending.store()
     if ModData and ModData.getOrCreate then
-        local ok, t = pcall(function() return ModData.getOrCreate(STORE_KEY) end)
+        local ok, t = pcall(function()
+            return ModData.getOrCreate(STORE_KEY)
+        end)
+
         if ok and type(t) == "table" then
-            if type(t.records) ~= "table" then t.records = {} end
-        if ok and type(t) == "table" then
-            if type(t.records) ~= "table" then t.records = {} end
+            if type(t.records) ~= "table" then
+                t.records = {}
+            end
             return t
         end
     end
-    Pending._fallback = Pending._fallback or { records = {} }
+
+    Pending._fallback = Pending._fallback or {
+        records = {}
+    }
+
     return Pending._fallback
 end
 
@@ -108,10 +115,7 @@ function Pending.add(record)
         return
     end
 
-    if not Pending._nextId or type(Pending._nextId) ~= "number" then
-        Log.warn("Pending._nextId invalid; ignoring record.")
-        return
-    end
+   
 
     if not Pending._nextId or type(Pending._nextId) ~= "number" then
         Log.warn("Pending._nextId invalid; ignoring record.")
@@ -157,17 +161,11 @@ local function resolveRecord(id, record, now)
     local ok, loaded = pcall(function() return Chunk.isLoaded(record.x, record.y, record.z) end)
     if not ok or type(loaded) ~= "boolean" then
         Log.warn("Pending: Chunk.isLoaded call failed or returned non-boolean for #%s.", tostring(id))
-    if not ok or type(loaded) ~= "boolean" then
-        Log.warn("Pending: Chunk.isLoaded call failed or returned non-boolean for #%s.", tostring(id))
         return false
     end
 
     if loaded then
         local res = detonate(record)
-        if type(res) ~= "table" or type(res.needsSquare) ~= "boolean" then
-            res = { needsSquare = false }
-        end
-        if res.needsSquare then
         if type(res) ~= "table" or type(res.needsSquare) ~= "boolean" then
             res = { needsSquare = false }
         end
@@ -184,7 +182,6 @@ end
 function Pending.onLoadSquare(square)
     if not square then return end
     local store = Pending.store()
-    if type(store) ~= "table" or type(store.records) ~= "table" then return end
     if type(store) ~= "table" or type(store.records) ~= "table" then return end
 
     -- Guard Utils.gameMinutes
@@ -213,7 +210,6 @@ end
 -- Periodic poll + expiry.
 function Pending.tick()
     local store = Pending.store()
-    if type(store) ~= "table" or type(store.records) ~= "table" then return end
     if type(store) ~= "table" or type(store.records) ~= "table" then return end
 
     if not Utils or type(Utils.gameMinutes) ~= "function" then

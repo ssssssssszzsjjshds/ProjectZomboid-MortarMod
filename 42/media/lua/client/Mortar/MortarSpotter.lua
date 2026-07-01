@@ -38,7 +38,9 @@ local Spotter = MortarMod.Spotter
 -- survives map close/reopen.
 Spotter._plotting = false
 Spotter._observer = nil
+Spotter._observerUI = nil
 Spotter._plotTarget = nil
+Spotter._plotTargetUI = nil
 Spotter._warnedOnce = {}
 
 local function tr(key, ...)
@@ -234,6 +236,7 @@ local function install()
         if Spotter._observerUI and Spotter._plotTargetUI then
             if not plotTex then
                 plotTex = getTexture("media/ui/WhiteRect.png")
+                    or getTexture("media/ui/Cross.png")
             end
             if plotTex then
                 self:drawLine(plotTex,
