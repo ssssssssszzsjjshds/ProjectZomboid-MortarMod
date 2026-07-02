@@ -640,7 +640,7 @@ Config.SHELLFX = {
 --=======================================================================--
 
 Config.KEYBINDS = {
-    toggleDebug = "M",   -- toggle debug overlays (only when DEBUG features on)
+    toggleDebug = "F8",   -- toggle debug overlays (only when DEBUG features on)
 }
 
 --=======================================================================--

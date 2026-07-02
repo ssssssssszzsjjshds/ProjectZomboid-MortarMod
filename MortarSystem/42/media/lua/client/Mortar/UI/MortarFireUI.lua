@@ -354,16 +354,36 @@ function MortarFireUI:createChildren()
 
     local bw, bh = 34, 17
 
-    -- AZIMUTH steppers: -10 -5 -1 | +1 +5 +10 (every single degree, design ask).
-    local ay = S.y + 40
-    local az = { "-10", "-5", "-1", "+1", "+5", "+10" }
-    local deltas = { -10, -5, -1, 1, 5, 10 }
-    for i = 1, 6 do
-        local x = left + (i - 1) * (bw + 4)
-        if i > 3 then x = x + 44 end  -- gap where the value renders
-        local d = deltas[i]
-        self:addBtn(x, ay, bw, bh, az[i], function(t) t:changeBearing(d) end)
-    end
+   -- AZIMUTH steppers: -10 -5 -1 | BEARING | +1 +5 +10
+local ay = S.y + 40
+
+local bw = 30
+local bh = 17
+local spacing = 4
+local centerGap = 65
+
+local centerX = S.x + (S.w / 2)
+
+local az = { "-10", "-5", "-1", "+1", "+5", "+10" }
+local deltas = { -10, -5, -1, 1, 5, 10 }
+
+local positions = {
+    centerX - centerGap - bw * 3 - spacing * 2,
+    centerX - centerGap - bw * 2 - spacing,
+    centerX - centerGap - bw,
+
+    centerX + centerGap,
+    centerX + centerGap + bw + spacing,
+    centerX + centerGap + (bw + spacing) * 2,
+}
+
+for i = 1, 6 do
+    local d = deltas[i]
+    self:addBtn(positions[i], ay, bw, bh, az[i],
+        function(t)
+            t:changeBearing(d)
+        end)
+end
 
     -- ELEVATION setting prev/next.
     local ey = S.y + 80
