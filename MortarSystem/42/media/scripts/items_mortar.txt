@@ -1,0 +1,143 @@
+module MortarSystem
+{
+    imports
+    {
+        Base
+    }
+
+    /***********************************************************************
+     * MORTAR SYSTEM - ITEM DEFINITIONS  (Build 42.19)
+     *
+     * B42 notes:
+     *   - Uses `ItemType = base:normal` (B42 replaced B41's `Type = Normal`).
+     *   - Display names live in translations (media/.../Translate/EN/ItemName_EN.txt)
+     *     because `DisplayName` is deprecated since 42.13.
+     *   - Icons reference PLACEHOLDER textures (media/textures/Item_*.png) -- swap
+     *     for final art (see docs/ASSET_CHECKLIST.md).
+     *   - Loot placement is done in Lua (server/Mortar/MortarDistributions.lua).
+     *   - Weights mirror real-world equivalents abstracted to PZ units (design 2).
+     ***********************************************************************/
+
+    /* --- The crew-served weapon: carried broken down as one heavy item ----- */
+    item M224Mortar
+    {
+        DisplayCategory  = MortarSystem,
+        ItemType         = base:normal,
+        Weight           = 21.0,
+        Icon             = MortarTube,
+        WorldStaticModel = MortarSystem.M224MortarWhole,
+    }
+
+    /* --- Deployed 3D visual parts (never obtainable as loot) ---------------
+     * The deployed mortar is represented by two world items rendering these
+     * static models: a static baseplate and a tube assembly that is rotated
+     * to the current aim bearing (see MortarObject.lua). They are spawned /
+     * removed by setup and breakdown; players never legitimately hold one. */
+    item MortarBaseplatePart
+    {
+        DisplayCategory  = MortarSystem,
+        ItemType         = base:normal,
+        Weight           = 0.1,
+        Icon             = MortarTube,
+        WorldStaticModel = MortarSystem.M224Baseplate,
+    }
+
+    item MortarTubePart
+    {
+        DisplayCategory  = MortarSystem,
+        ItemType         = base:normal,
+        Weight           = 0.1,
+        Icon             = MortarTube,
+        WorldStaticModel = MortarSystem.M224TubeAssembly,
+    }
+
+    /* Tube part at baked elevation steps (see models_mortar.txt): the
+     * deployed tube visual is swapped between these by MortarObject.lua so
+     * its pitch tracks the fire solution (closer = steeper). */
+    item MortarTubePart_E45 { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = MortarTube, WorldStaticModel = MortarSystem.M224Tube45, }
+    item MortarTubePart_E55 { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = MortarTube, WorldStaticModel = MortarSystem.M224Tube55, }
+    item MortarTubePart_E65 { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = MortarTube, WorldStaticModel = MortarSystem.M224Tube65, }
+    item MortarTubePart_E75 { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = MortarTube, WorldStaticModel = MortarSystem.M224Tube75, }
+    item MortarTubePart_E85 { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = MortarTube, WorldStaticModel = MortarSystem.M224Tube85, }
+
+    /* --- 60mm shells ------------------------------------------------------- */
+    item Shell_HE_60
+    {
+        DisplayCategory  = MortarSystem,
+        ItemType         = base:normal,
+        Weight           = 1.9,
+        Icon             = ShellHE,
+        WorldStaticModel = MortarSystem.Shell60Ground_HE,
+    }
+
+    item Shell_Smoke_60
+    {
+        DisplayCategory  = MortarSystem,
+        ItemType         = base:normal,
+        Weight           = 1.9,
+        Icon             = ShellSmoke,
+        WorldStaticModel = MortarSystem.Shell60Ground_Smoke,
+    }
+
+    item Shell_Illum_60
+    {
+        DisplayCategory  = MortarSystem,
+        ItemType         = base:normal,
+        Weight           = 1.7,
+        Icon             = ShellIllum,
+        WorldStaticModel = MortarSystem.Shell60Ground_Illum,
+    }
+
+    /* --- Shell flight animation puppets (cosmetic; never obtainable) -------
+     * Short-lived world items animated by MortarShellFlight.lua to show the
+     * round climbing out of the tube (nose-up) and plunging onto the target
+     * (nose-down). One up/down pair per filling so colors match. */
+    item ShellPuppetUp_HE      { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = ShellHE,    WorldStaticModel = MortarSystem.Shell60Up_HE, }
+    item ShellPuppetUp_Smoke   { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = ShellSmoke, WorldStaticModel = MortarSystem.Shell60Up_Smoke, }
+    item ShellPuppetUp_Illum   { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = ShellIllum, WorldStaticModel = MortarSystem.Shell60Up_Illum, }
+    item ShellPuppetDown_HE    { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = ShellHE,    WorldStaticModel = MortarSystem.Shell60Down_HE, }
+    item ShellPuppetDown_Smoke { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = ShellSmoke, WorldStaticModel = MortarSystem.Shell60Down_Smoke, }
+    item ShellPuppetDown_Illum { DisplayCategory = MortarSystem, ItemType = base:normal, Weight = 0.1, Icon = ShellIllum, WorldStaticModel = MortarSystem.Shell60Down_Illum, }
+
+    /* --- Military plotting kit (best accuracy) ----------------------------- */
+    item PlottingBoard
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 1.2,
+        Icon            = PlottingBoard,
+    }
+
+    item AimingCircle
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 2.5,
+        Icon            = AimingCircle,
+    }
+
+    item FiringTables
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 0.4,
+        Icon            = FiringTables,
+    }
+
+    /* --- Civilian navigation aids (army surplus; higher scatter) ----------- */
+    item OrienteeringCompass
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 0.2,
+        Icon            = Compass,
+    }
+
+    item MapRuler
+    {
+        DisplayCategory = MortarSystem,
+        ItemType        = base:normal,
+        Weight          = 0.1,
+        Icon            = MapRuler,
+    }
+}

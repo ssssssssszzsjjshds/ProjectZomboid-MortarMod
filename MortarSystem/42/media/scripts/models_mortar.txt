@@ -1,0 +1,81 @@
+module MortarSystem
+{
+    imports
+    {
+        Base
+    }
+
+    /***********************************************************************
+     * MORTAR SYSTEM - 3D STATIC MODEL DEFINITIONS
+     *
+     * Meshes live in media/models_X/ (binary FBX, Y-up, triangulated, one
+     * material). All three share the procedural olive-drab metal texture
+     * media/textures/M224_Mortar.png.
+     *
+     * Source meshes are ~19 units tall (tube), so scale 0.02875 gives a
+     * deployed tube of ~0.5 world units and a baseplate roughly a quarter of
+     * a tile across. Tune `scale` here if the mortar looks too big/small.
+     *
+     * The tube assembly mesh has its origin at the hinge (base of the tube),
+     * so rotating the world item around its vertical axis swings the tube
+     * around the hinge point.
+     ***********************************************************************/
+
+    /* Whole assembled mortar - shown when the carry item lies on the ground */
+    model M224MortarWhole
+    {
+        mesh = M224_Mortar,
+        texture = M224_Mortar,
+        scale = 0.02875,
+    }
+
+    /* Deployed part: static baseplate */
+    model M224Baseplate
+    {
+        mesh = M224_Baseplate,
+        texture = M224_Mortar,
+        scale = 0.02875,
+    }
+
+    /* Deployed part: tube + bipod, rotated to the current aim bearing */
+    model M224TubeAssembly
+    {
+        mesh = M224_TubeAssembly,
+        texture = M224_Mortar,
+        scale = 0.02875,
+    }
+
+    /* Tube elevation steps: the same tube assembly baked at five pitches
+       (rotated around the hinge). The deployed tube part is swapped to the
+       step matching the fire solution: closer range = steeper tube.
+       (World items cannot be pitched at runtime, hence baked variants.) */
+    model M224Tube45 { mesh = M224_Tube45, texture = M224_Mortar, scale = 0.02875, }
+    model M224Tube55 { mesh = M224_Tube55, texture = M224_Mortar, scale = 0.02875, }
+    model M224Tube65 { mesh = M224_Tube65, texture = M224_Mortar, scale = 0.02875, }
+    model M224Tube75 { mesh = M224_Tube75, texture = M224_Mortar, scale = 0.02875, }
+    model M224Tube85 { mesh = M224_Tube85, texture = M224_Mortar, scale = 0.02875, }
+
+    /***********************************************************************
+     * 60mm SHELLS
+     * One mesh in three baked poses (media/models_X/Shell60_*.fbx):
+     *   Ground = lying on its side (dropped inventory items)
+     *   Up     = nose-up, tilted along flight (launch animation puppet)
+     *   Down   = nose-down (terminal descent animation puppet)
+     * Three texture recolors of the uploaded shell (media/textures/):
+     *   HE = olive green, Smoke = white, Illum = warm cream.
+     * Source mesh is ~2 units long; 0.096 = ~0.19 m dropped rounds; the
+     * flight puppets use 0.144 so they still read in the air.
+     ***********************************************************************/
+
+    model Shell60Ground_HE    { mesh = Shell60_Ground, texture = Shell60_HE,    scale = 0.096, }
+    model Shell60Ground_Smoke { mesh = Shell60_Ground, texture = Shell60_Smoke, scale = 0.096, }
+    model Shell60Ground_Illum { mesh = Shell60_Ground, texture = Shell60_Illum, scale = 0.096, }
+
+    model Shell60Up_HE        { mesh = Shell60_Up,   texture = Shell60_HE,    scale = 0.144, }
+    model Shell60Up_Smoke     { mesh = Shell60_Up,   texture = Shell60_Smoke, scale = 0.144, }
+    model Shell60Up_Illum     { mesh = Shell60_Up,   texture = Shell60_Illum, scale = 0.144, }
+
+    model Shell60Down_HE      { mesh = Shell60_Down, texture = Shell60_HE,    scale = 0.144, }
+    model Shell60Down_Smoke   { mesh = Shell60_Down, texture = Shell60_Smoke, scale = 0.144, }
+    model Shell60Down_Illum   { mesh = Shell60_Down, texture = Shell60_Illum, scale = 0.144, }
+}

@@ -1,0 +1,18 @@
+ContextMenu_EN = {
+
+    /* ---- Deployment ----------------------------------------------------- */
+    ContextMenu_Mortar_SetUp = "Set Up Mortar",
+    ContextMenu_Mortar_BreakDown = "Break Down Mortar",
+    ContextMenu_Mortar_Operate = "Operate Mortar",
+
+    /* ---- Placement failure tooltips ------------------------------------ */
+    ContextMenu_Mortar_CantPlace = "Cannot set up here",
+    ContextMenu_Mortar_NeedOutdoors = "Must be set up outdoors on open ground.",
+    ContextMenu_Mortar_NeedFlat = "Ground is not suitable (water, slope, or stairs).",
+    ContextMenu_Mortar_Occupied = "The tile is occupied.",
+    ContextMenu_Mortar_NeedTools = "Requires plotting tools to operate.",
+
+    /* ---- Spotter device ------------------------------------------------- */
+    ContextMenu_Mortar_PlotMission = "Plot Mortar Fire Mission",
+    ContextMenu_Mortar_ClearMission = "Clear Fire Mission",
+}

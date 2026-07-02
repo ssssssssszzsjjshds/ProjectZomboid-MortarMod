@@ -1,0 +1,70 @@
+IG_UI_EN = {
+
+    /* ---- Inventory display category ------------------------------------ */
+    IGUI_ItemCat_MortarSystem = "Mortar System",
+
+    /* ---- Deployed object / general ------------------------------------- */
+    IGUI_Mortar_DeployedName = "M224 Mortar",
+    IGUI_Mortar_Title = "M224 FIRE CONTROL",
+    IGUI_Mortar_Condition = "TUBE %d%%",
+    IGUI_Mortar_ConditionWorn = "Tube wear is degrading accuracy.",
+
+    /* ---- Shell type labels --------------------------------------------- */
+    IGUI_Mortar_Shell_HE = "HE M720",
+    IGUI_Mortar_Shell_Smoke = "SMOKE M722",
+    IGUI_Mortar_Shell_Illum = "ILLUM M721",
+    IGUI_Mortar_Shell_None = "NO ROUNDS",
+
+    /* ---- Fire-control HUD readouts / controls --------------------------- */
+    IGUI_Mortar_Azimuth = "AZIMUTH",
+    IGUI_Mortar_Elevation = "ELEVATION",
+    IGUI_Mortar_Range = "RANGE",
+    IGUI_Mortar_RangeTiles = "%d m",
+    IGUI_Mortar_RangeBand = "band %d-%d m",
+    IGUI_Mortar_RangeUnknown = "NO DATA",
+    IGUI_Mortar_Round = "ROUND",
+    IGUI_Mortar_Fire = "FIRE",
+    IGUI_Mortar_Firing = "ROUND OUT...",
+    IGUI_Mortar_LayGun = "LAY GUN",
+    IGUI_Mortar_GunLaid = "Gun laid: azimuth %d deg, %s.",
+    IGUI_Mortar_Close = "STAND DOWN",
+    IGUI_Mortar_Tool = "PLOT KIT",
+    IGUI_Mortar_ScatterPreview = "DISPERSION ~%d m",
+
+    /* legacy aliases (older saves/screens) */
+    IGUI_Mortar_Bearing = "AZIMUTH",
+    IGUI_Mortar_BearingUnit = "deg",
+    IGUI_Mortar_Charge = "ELEVATION",
+
+    /* ---- Tool tier warnings -------------------------------------------- */
+    IGUI_Mortar_Warn_Compass = "Compass only - no firing tables, wide dispersion.",
+    IGUI_Mortar_Warn_Ruler = "Map ruler only - crude lay, very wide dispersion.",
+    IGUI_Mortar_Warn_NoCircle = "No aiming circle - degraded lay accuracy.",
+    IGUI_Mortar_Warn_NoTools = "Plotting equipment required to lay the gun.",
+
+    /* ---- Errors / prompts ---------------------------------------------- */
+    IGUI_Mortar_Err_NoSolution = "No firing solution.",
+    IGUI_Mortar_InvalidTarget = "Invalid target.",
+    IGUI_Mortar_Err_TooClose = "Target inside minimum safe range.",
+    IGUI_Mortar_Err_TooFar = "Target beyond maximum range.",
+    IGUI_Mortar_Err_BadCharge = "Invalid elevation setting.",
+    IGUI_Mortar_Err_NoShell = "No rounds of that type remaining.",
+    IGUI_Mortar_Err_Unserviceable = "Tube unserviceable.",
+    IGUI_Mortar_Misfire = "MISFIRE! Round failed to leave the tube.",
+
+    /* ---- Spotter / map plotting ---------------------------------------- */
+    IGUI_Mortar_Spotter_Plot = "Plot Fire Mission",
+    IGUI_Mortar_Spotter_PickObserver = "Mark the gun position.",
+    IGUI_Mortar_Spotter_PickTarget = "Mark the target position.",
+    IGUI_Mortar_Spotter_Solution = "Mission plotted: azimuth %d deg, %d m, setting %s.",
+    IGUI_Mortar_Spotter_Use = "LOAD FIRE MISSION",
+    IGUI_Mortar_Spotter_None = "No fire mission plotted.",
+    IGUI_Mortar_Spotter_NeedTool = "You need a plotting tool to plot a mission.",
+    IGUI_Mortar_Spotter_Cleared = "Fire mission cleared.",
+    IGUI_Mortar_Spotter_LineLabel = "%d deg / %d m",
+
+    /* ---- Status line / feedback ---------------------------------------- */
+    IGUI_Mortar_Fired = "Round away.",
+    IGUI_Mortar_Fired_Flight = "Round away. Splash in %d s.",
+    IGUI_Mortar_Impact = "Impact at %d, %d.",
+}

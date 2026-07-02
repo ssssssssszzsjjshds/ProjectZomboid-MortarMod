@@ -1,0 +1,79 @@
+module MortarSystem
+{
+    imports
+    {
+        Base
+    }
+
+    /***********************************************************************
+     * MORTAR SYSTEM - SOUND DEFINITIONS
+     * Source clips live in media/sound/*.ogg. Played positionally by
+     * MortarShellFlight.lua (client-side, via a world emitter):
+     *   MortarFire      launch thump at the tube
+     *   MortarIncoming  descending-round whistle at the target
+     *   MortarExplosion HE impact (player near the impact)
+     *   MortarSmokePop  smoke shell burst
+     *   MortarDistant   far-off boom: HE impacts beyond earshot + the
+     *                   illumination airburst (never used for smoke)
+     ***********************************************************************/
+
+    sound MortarFire
+    {
+        category = Item,
+        is3D = true,
+        clip
+        {
+            file = media/sound/MortarFire.ogg,
+            distanceMax = 100,
+            volume = 1.0,
+        }
+    }
+
+    sound MortarIncoming
+    {
+        category = Item,
+        is3D = true,
+        clip
+        {
+            file = media/sound/MortarIncoming.ogg,
+            distanceMax = 70,
+            volume = 0.8,
+        }
+    }
+
+    sound MortarExplosion
+    {
+        category = Item,
+        is3D = true,
+        clip
+        {
+            file = media/sound/MortarExplosion.ogg,
+            distanceMax = 220,
+            volume = 1.0,
+        }
+    }
+
+    sound MortarSmokePop
+    {
+        category = Item,
+        is3D = true,
+        clip
+        {
+            file = media/sound/MortarSmokePop.ogg,
+            distanceMax = 100,
+            volume = 0.9,
+        }
+    }
+
+    sound MortarDistant
+    {
+        category = Item,
+        is3D = true,
+        clip
+        {
+            file = media/sound/MortarDistant.ogg,
+            distanceMax = 1100,
+            volume = 0.9,
+        }
+    }
+}
